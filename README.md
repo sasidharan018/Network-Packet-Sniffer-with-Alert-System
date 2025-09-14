@@ -102,7 +102,7 @@ FROM packets
 GROUP BY src_ip
 ORDER BY pkt_count DESC
 LIMIT 10;
-
+```
 
 2. Alerts history:
 
@@ -110,7 +110,7 @@ LIMIT 10;
 SELECT type, src, details, datetime(ts,'unixepoch') 
 FROM alerts 
 ORDER BY ts DESC;
-
+```
 
 3. Traffic volume by source:
 
@@ -120,7 +120,7 @@ FROM packets
 GROUP BY src_ip 
 ORDER BY total_bytes DESC 
 LIMIT 10;
-
+```
 ---
 
 ## Logs
