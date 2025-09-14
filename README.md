@@ -96,15 +96,17 @@ The tool uses SQLite (traffic.db) with two tables:
 
 1. Top talkers (most packets by source IP):
 
-SELECT src_ip, COUNT(*) AS pkt_count 
-FROM packets 
-GROUP BY src_ip 
-ORDER BY pkt_count DESC 
+```sql
+SELECT src_ip, COUNT(*) AS pkt_count
+FROM packets
+GROUP BY src_ip
+ORDER BY pkt_count DESC
 LIMIT 10;
 
 
 2. Alerts history:
 
+```sql
 SELECT type, src, details, datetime(ts,'unixepoch') 
 FROM alerts 
 ORDER BY ts DESC;
@@ -112,6 +114,7 @@ ORDER BY ts DESC;
 
 3. Traffic volume by source:
 
+```sql
 SELECT src_ip, SUM(length) AS total_bytes 
 FROM packets 
 GROUP BY src_ip 
