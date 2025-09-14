@@ -2,8 +2,8 @@
 """
 cli_sniffer_simple.py
 
-Minimal CLI packet sniffer + anomaly detector (no email).
-Requirements: Python3, scapy (pip install scapy).
+Minimal CLI packet sniffer + anomaly detector.
+Requirements: Python3, scapy 
 
 Usage:
   sudo python3 cli_sniffer_simple.py --iface lo
@@ -86,7 +86,7 @@ class DB:
         self.close()
 
 
-# ---------- Efficient sliding-window detector ----------
+# ---------- Sliding-window detector ----------
 class SlidingDetector:
     """
     Maintains for each src:
@@ -223,4 +223,5 @@ def main():
                 print("(no alerts logged)")
 
 if __name__ == "__main__":
+
     main()
