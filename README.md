@@ -49,47 +49,17 @@ Run the tool with administrator/root privileges.
 
 python cli_sniffer_simple.py --iface "Ethernet" --window 10 --pkt-th 2000 --byte-th 5000000 --portscan 100
 
-**Options:**
+## Command-Line Options
 
-**Argument	 Description**
---iface	     Network interface to sniff (e.g., "Ethernet", "Wi-Fi")
---window	   Sliding window in seconds (default: 10)
---pkt-th	   Packet flood threshold per source per window (default: 2000)
---byte-th	   Byte flood threshold per source per window (default: 5000000 ≈ 5 MB)
---portscan   Distinct port threshold for port scanning (default: 100)
---db	       Path to SQLite DB file (default: traffic.db)
---alerts	   Path to alerts log file (default: alerts.log)
-
----
-
-## Project Workflow Diagram
-
-┌───────────────────┐
-        │   Network Traffic │
-        └─────────┬─────────┘
-                  │ (captured by Scapy)
-        ┌─────────▼─────────┐
-        │   Packet Parser    │
-        └─────────┬─────────┘
-                  │ (extract IP, ports, length, flags)
-        ┌─────────▼─────────┐
-        │   SQLite Database  │
-        │  - packets table   │
-        │  - alerts table    │
-        └─────────┬─────────┘
-                  │ (anomaly detection checks)
-        ┌─────────▼─────────┐
-        │ Anomaly Detection │
-        │ - Flooding        │
-        │ - Port Scanning   │
-        └─────────┬─────────┘
-                  │ (alerts generated)
-        ┌─────────▼─────────┐
-        │   Alerts Output    │
-        │ - alerts.log file  │
-        │ - DB alerts table  │
-        └────────────────────┘
-
+| Option      | Description                                                   | Default Value               |
+|-------------|---------------------------------------------------------------|-----------------------------|
+| `--iface`   | Network interface to sniff (e.g., `"Ethernet"`, `"Wi-Fi"`)    | *Required*                  |
+| `--window`  | Sliding window in seconds                                     | `10`                        |
+| `--pkt-th`  | Packet flood threshold per source per window                  | `2000`                      |
+| `--byte-th` | Byte flood threshold per source per window (≈ 5 MB)           | `5000000`                   |
+| `--portscan`| Distinct port threshold for port scanning                     | `100`                       |
+| `--db`      | Path to SQLite DB file                                        | `traffic.db`                |
+| `--alerts`  | Path to alerts log file                                       | `alerts.log`                |
 
 ---
 
@@ -97,29 +67,28 @@ python cli_sniffer_simple.py --iface "Ethernet" --window 10 --pkt-th 2000 --byte
 
 The tool uses SQLite (traffic.db) with two tables:
 
-1. packets Table
-   
-**Column	  Description**
+**1. packets Table**
 
-id	        Auto-increment primary key
-ts	        Timestamp (epoch)
-src_ip	    Source IP address
-dst_ip	    Destination IP address
-src_port	  Source port
-dst_port	  Destination port
-length	    Packet length
-flags	      TCP flags
+| Column     | Description               |
+|------------|---------------------------|
+| `id`       | Auto-increment primary key |
+| `ts`       | Timestamp (epoch)          |
+| `src_ip`   | Source IP address          |
+| `dst_ip`   | Destination IP address     |
+| `src_port` | Source port                |
+| `dst_port` | Destination port           |
+| `length`   | Packet length              |
+| `flags`    | TCP flags                  |
 
-2. alerts Table
-   
-**Column	Description**
+**2. alerts Table**
 
-id	      Auto-increment primary key
-ts	      Timestamp (epoch)
-type	    Type of anomaly (FLOOD, PORTSCAN)
-src	      Source IP address
-details	  Additional info about the alert
-
+| Column    | Description                          |
+|-----------|--------------------------------------|
+| `id`      | Auto-increment primary key           |
+| `ts`      | Timestamp (epoch)                    |
+| `type`    | Type of anomaly (`FLOOD`, `PORTSCAN`)|
+| `src`     | Source IP address                    |
+| `details` | Additional info about the alert      |
 
 ---
 
@@ -153,12 +122,9 @@ LIMIT 10;
 
 ## Logs
 
-alerts.log file contains all detected anomalies in plain text.
-
-To monitor in real-time,
-Linux: tail -f alerts.log
-Windows (PowerShell): Get-Content .\alerts.log -Wait
-
+**alerts.log** file contains all detected anomalies in plain text. To monitor in real-time, 
+1. Linux: tail -f alerts.log
+2. Windows (PowerShell): Get-Content .\alerts.log -Wait
 
 ---
 
